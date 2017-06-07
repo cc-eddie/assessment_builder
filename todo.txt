@@ -1,0 +1,24 @@
+WHAT WE HAVE: - - - - - - - - - - - - - - - - - 
+
+getAssessments: 
+    populates page with the entire list of quesions and answers
+        each question has a textbox (for providing space to answer question once printed)
+        A button for adding the question to an assessment tempalte (an array of questions)
+
+make assessment
+    on clicking, swtiches page content from list of all questions to the ones you've added to the assessment template
+    Numbered (zero indexed, hehe)
+
+
+WHAT WE NEED: - - - - - - - - - - - - - - - - - 
+
+    search function
+        search individual questions by content and/or tags
+
+    add questions
+        insert new questions into the database
+
+    save assessments
+        once an assessment has been built, option to store that whole assessment in new collection in database for 
+        future reference
+
