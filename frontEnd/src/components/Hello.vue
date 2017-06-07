@@ -1,8 +1,10 @@
 <template>
   <div class="hello">
-    <span> {{checkedQuestions}}</span>
     <button v-on:click="fetchAssessments"> Get Questions </button>
     <br/>
+    <span> {{questionNames}}</span>
+    <br/>
+    <button v-on:click="makeAssessment"> Make Assessment </button>
     <div v-for="(assessment, i) in assessments">
       <Question v-bind:assessment="assessment" @clicked="onClicked" :key="i" />
     </div>
@@ -18,7 +20,9 @@ export default {
   data: function () {
     return {
       assessments: {},
-      checkedQuestions: []
+      questionNames: [],
+      checkedQuestions: [],
+      questionsForPrint: {}
     }
   },
   methods: {
@@ -29,12 +33,20 @@ export default {
         .then(body => this.$set(this, 'assessments', JSON.parse(body)))
     },
     onClicked: function (value) {
-      if (this.checkedQuestions.indexOf(value) === -1) {
-        this.checkedQuestions.push(value)
+      if (this.questionNames.indexOf(value) === -1) {
+        this.questionNames.push(value)
+        let question = this.assessments.find((a) => {
+          return a._id === value
+        })
+        this.checkedQuestions.push(question)
       } else {
-        let removal = this.checkedQuestions.indexOf(value)
+        let removal = this.questionNames.indexOf(value)
         this.checkedQuestions.splice(removal, 1)
+        this.questionNames.splice(removal, 1)
       }
+    },
+    makeAssessment: function () {
+      this.$set(this, 'assessments', this.checkedQuestions)
     }
   },
   mounted () {
