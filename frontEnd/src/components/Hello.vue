@@ -1,12 +1,14 @@
 <template>
   <div class="hello">
-    <button v-on:click="fetchAssessments"> Get Questions </button>
-    <br/>
-    <span> {{questionNames}}</span>
-    <br/>
-    <button v-on:click="makeAssessment"> Make Assessment </button>
+    <div class="header">
+      <button v-on:click="fetchAssessments"> Get Questions </button>
+      <br/>
+      <span> {{questionNames.length}}</span>
+      <br/>
+      <button v-on:click="makeAssessment"> Make Assessment </button>
+    </div>
     <div v-for="(assessment, i) in assessments">
-      <Question v-bind:assessment="assessment" @clicked="onClicked" :key="i" />
+      <Question v-bind:assessment="assessment" @clicked="onClicked" v-bind:_key="i" :key="i" />
     </div>
   </div>
 </template>
@@ -27,7 +29,6 @@ export default {
   },
   methods: {
     fetchAssessments: function () {
-      console.log('getting assessements')
       fetch('http://localhost:8000/all_assessments')
         .then(res => res.text())
         .then(body => this.$set(this, 'assessments', JSON.parse(body)))
@@ -48,9 +49,6 @@ export default {
     makeAssessment: function () {
       this.$set(this, 'assessments', this.checkedQuestions)
     }
-  },
-  mounted () {
-    console.log('mounted', this)
   },
   components: {
     Question
@@ -76,5 +74,11 @@ li {
 
 a {
   color: #42b983;
+}
+
+@media print {
+  .header {
+    display: none;
+  }
 }
 </style>

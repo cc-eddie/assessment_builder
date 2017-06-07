@@ -29,4 +29,9 @@ export default {
 #centered {
   text-align: center;
 }
+@media print {
+  #app {
+    margin-top: 0;
+  }
+}
 </style>

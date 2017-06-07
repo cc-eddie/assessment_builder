@@ -1,7 +1,9 @@
 <template>
   <div>
-    <input type="button" v-on:click="onChecked" v-bind:id="assessment._id" value="Add Question"/>
+    <input type="button" class="btn" v-on:click="onChecked" v-bind:id="assessment._id" value="Add / Remove"/>
+    <p>{{this._key}}</p>
     <div v-html="markedQuestion"></div>
+    <hr>
     <textarea />
   </div>
 </template>
@@ -24,7 +26,7 @@ export default {
       this.$emit('clicked', evt.target.id)
     }
   },
-  props: ['assessment', 'checkedQuestions']
+  props: ['assessment', 'checkedQuestions', '_key']
 }
 
 </script>
@@ -35,6 +37,9 @@ export default {
     visibility: hidden;
   }
   input {
+    visibility: hidden;
+  }
+  .btn {
     visibility: hidden;
   }
 }
