@@ -1,22 +1,24 @@
 <template>
   <div class="hello">
-    <button v-on:click="fetchAssessments"> DO STUFF</button>
+    <span> {{checkedQuestions}}</span>
+    <button v-on:click="fetchAssessments"> Get Questions </button>
     <br/>
-    <div v-for="(assessment, i) in assessments" v-html="markItUp(assessment.question)">
-      <input type="checkbox"/>
+    <div v-for="(assessment, i) in assessments">
+      <Question v-bind:assessment="assessment" @clicked="onClicked" :key="i" />
     </div>
   </div>
 </template>
 
 <script>
 import fetch from 'node-fetch'
-import marked from 'marked'
+import Question from './Question'
 
 export default {
   name: 'hello',
   data: function () {
     return {
-      assessments: {}
+      assessments: {},
+      checkedQuestions: []
     }
   },
   methods: {
@@ -26,12 +28,20 @@ export default {
         .then(res => res.text())
         .then(body => this.$set(this, 'assessments', JSON.parse(body)))
     },
-    markItUp: function (md) {
-      return marked(md)
+    onClicked: function (value) {
+      if (this.checkedQuestions.indexOf(value) === -1) {
+        this.checkedQuestions.push(value)
+      } else {
+        let removal = this.checkedQuestions.indexOf(value)
+        this.checkedQuestions.splice(removal, 1)
+      }
     }
   },
   mounted () {
     console.log('mounted', this)
+  },
+  components: {
+    Question
   }
 }
 </script>
