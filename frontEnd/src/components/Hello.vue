@@ -2,12 +2,15 @@
   <div class="hello">
     <button v-on:click="fetchAssessments"> DO STUFF</button>
     <br/>
-    {{assessments}}
+    <div v-for="(assessment, i) in assessments" v-html="markItUp(assessment.question)">
+      <input type="checkbox"/>
+    </div>
   </div>
 </template>
 
 <script>
 import fetch from 'node-fetch'
+import marked from 'marked'
 
 export default {
   name: 'hello',
@@ -22,6 +25,9 @@ export default {
       fetch('http://localhost:8000/all_assessments')
         .then(res => res.text())
         .then(body => this.$set(this, 'assessments', JSON.parse(body)))
+    },
+    markItUp: function (md) {
+      return marked(md)
     }
   },
   mounted () {
