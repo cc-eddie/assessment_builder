@@ -1,26 +1,31 @@
 <template>
   <div class="hello">
-    <h1>{{ msg }}</h1>
-    <button v-on:click="getAssessments">Get all assessments</button>
+    <button v-on:click="fetchAssessments"> DO STUFF</button>
+    <br/>
+    {{assessments}}
   </div>
 </template>
 
 <script>
 import fetch from 'node-fetch'
 
-let fetchAssessments = () => {
-  fetch('http://localhost:8000/all_assessments')
-    .then(res => res.text())
-    .then(body => console.log(JSON.parse(body)))
-}
-
 export default {
   name: 'hello',
-  data () {
+  data: function () {
     return {
-      msg: 'Welcome to Your Vue.js App',
-      getAssessments: fetchAssessments
+      assessments: {}
     }
+  },
+  methods: {
+    fetchAssessments: function () {
+      console.log('getting assessements')
+      fetch('http://localhost:8000/all_assessments')
+        .then(res => res.text())
+        .then(body => this.$set(this, 'assessments', JSON.parse(body)))
+    }
+  },
+  mounted () {
+    console.log('mounted', this)
   }
 }
 </script>
